@@ -1,0 +1,68 @@
+#!/usr/bin/python
+
+"""
+Magic markers
+#%# family=contrib
+#%# capabilities=autoconf
+"""
+
+import sys
+sys.path.insert(0, '/usr/lib/mongostatus')
+import mongodb_server_status as mongodb
+import re
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
+def safe_name(unsafe_name):
+    return re.sub(r"[^A-Za-z0-9_]+", "_", unsafe_name)
+
+"""
+Begin unique section.
+"""
+
+def must_print_key(key):
+    return key == "uptime" or key == "uptimeEstimate"
+
+def get_server_data():
+    return mongodb.getServerStatus()
+
+def print_values():
+    for k, v in get_server_data().iteritems():
+        if must_print_key(k):
+            print("%s.value %d" % (safe_name(k), v))
+
+def print_config_b():
+    print("graph_title MongoDB uptime")
+    print("graph_args --base 1000")
+    print("graph_vlabel uptime in seconds")
+
+    for k in get_server_data():
+        if must_print_key(k):
+            print("%s.label %s" % (safe_name(k), k))
+            print("%s.draw AREA" % (safe_name(k)))
+
+"""
+End unique section.
+"""
+
+def print_config_a():
+    print("graph_category mongodb")
+
+def print_autoconf():
+    try:
+        mongodb.getServerStatus()
+        print("yes")
+    except:
+        print("no (can't get mongodb server status)")
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "config":
+            print_config_a()
+            print_config_b()
+        elif sys.argv[1] == "autoconf":
+            print_autoconf()
+    else:
+        print_values()

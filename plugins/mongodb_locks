@@ -1,0 +1,76 @@
+#!/usr/bin/python
+
+"""
+Magic markers
+#%# family=contrib
+#%# capabilities=autoconf
+"""
+
+import sys
+sys.path.insert(0, '/usr/lib/mongostatus')
+import mongodb_server_status as mongodb
+import re
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
+def safe_name(unsafe_name):
+    return re.sub(r"[^A-Za-z0-9_]+", "_", unsafe_name)
+
+"""
+Begin unique section.
+"""
+
+def print_values():
+    values = {"R": 0, "W": 0, "r": 0, "w": 0}
+
+    for k, v in mongodb.getServerStatus()["locks"].iteritems():
+        if v.has_key("acquireCount"):
+            for kk, vv in v["acquireCount"].iteritems():
+                values[kk] += vv
+
+    for k, v in values.items():
+        print("%s.value %d" % (k, v))
+
+def print_config_b():
+    print("graph_title MongoDB locks")
+    print("graph_args --base 1000")
+    print("graph_vlabel locks / ${graph_period}")
+
+    print("R.label Shared locks")
+    print("R.type DERIVE")
+    print("R.min 0")
+    print("W.label Exclusive locks")
+    print("W.type DERIVE")
+    print("W.min 0")
+    print("r.label Intent Shared locks")
+    print("r.type DERIVE")
+    print("r.min 0")
+    print("w.label Intent Exclusive locks")
+    print("w.type DERIVE")
+    print("w.min 0")
+
+"""
+End unique section.
+"""
+
+def print_config_a():
+    print("graph_category mongodb")
+
+def print_autoconf():
+    try:
+        mongodb.getServerStatus()
+        print("yes")
+    except:
+        print("no (can't get mongodb server status)")
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "config":
+            print_config_a()
+            print_config_b()
+        elif sys.argv[1] == "autoconf":
+            print_autoconf()
+    else:
+        print_values()

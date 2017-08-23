@@ -1,0 +1,62 @@
+#!/usr/bin/python
+
+"""
+Magic markers
+#%# family=contrib
+#%# capabilities=autoconf
+"""
+
+import sys
+sys.path.insert(0, '/usr/lib/mongostatus')
+import mongodb_server_status as mongodb
+import re
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
+def safe_name(unsafe_name):
+    return re.sub(r"[^A-Za-z0-9_]+", "_", unsafe_name)
+
+"""
+Begin unique section.
+"""
+
+def get_server_data():
+    return mongodb.getServerStatus()["extra_info"]["page_faults"]
+
+def print_values():
+    print("page_faults.value %d" % (get_server_data()))
+
+def print_config_b():
+    print("graph_title MongoDB page faults")
+    print("graph_args --base 1000")
+    print("graph_vlabel page faults / ${graph_period}")
+
+    print("page_faults.label page faults")
+    print("page_faults.type DERIVE")
+    print("page_faults.min 0")
+
+"""
+End unique section.
+"""
+
+def print_config_a():
+    print("graph_category mongodb")
+
+def print_autoconf():
+    try:
+        get_server_data()
+        print("yes")
+    except:
+        print("no (can't get mongodb page_faults information)")
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "config":
+            print_config_a()
+            print_config_b()
+        elif sys.argv[1] == "autoconf":
+            print_autoconf()
+    else:
+        print_values()
