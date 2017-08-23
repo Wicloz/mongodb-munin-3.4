@@ -39,12 +39,12 @@ def print_config_b():
     print("graph_vlabel bytes in (-) / out (+) per ${graph_period}")
     print("graph_order bytesIn bytesOut")
 
-    print("bytesIn.label bytes in")
+    print("bytesIn.label received")
     print("bytesIn.type DERIVE")
     print("bytesIn.min 0")
     print("bytesIn.graph no")
 
-    print("bytesOut.label bytes out")
+    print("bytesOut.label traffic")
     print("bytesOut.type DERIVE")
     print("bytesOut.min 0")
     print("bytesOut.negative bytesIn")
