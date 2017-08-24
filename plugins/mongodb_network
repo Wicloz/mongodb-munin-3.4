@@ -35,19 +35,21 @@ def print_values():
 
 def print_config_b():
     print("graph_title MongoDB network usage")
-    print("graph_args --base 1024")
-    print("graph_vlabel bytes in (-) / out (+) per ${graph_period}")
+    print("graph_args --base 1000")
+    print("graph_vlabel bits in (-) / out (+) per ${graph_period}")
     print("graph_order bytesIn bytesOut")
 
     print("bytesIn.label received")
     print("bytesIn.type DERIVE")
     print("bytesIn.min 0")
     print("bytesIn.graph no")
+    print("bytesIn.cdef bytesIn,8,*")
 
     print("bytesOut.label traffic")
     print("bytesOut.type DERIVE")
     print("bytesOut.min 0")
     print("bytesOut.negative bytesIn")
+    print("bytesOut.cdef bytesOut,8,*")
 
 """
 End unique section.
