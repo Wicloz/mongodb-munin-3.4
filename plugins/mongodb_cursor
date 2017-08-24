@@ -36,7 +36,7 @@ def print_config_b():
     print("graph_vlabel number of cursors")
 
     for k in get_server_data():
-        print("%s.label open %s cursors" % (safe_name(k), k))
+        print("%s.label %s open cursors" % (safe_name(k), k))
 
     print("timedOut.label timed out cursors / ${graph_period}")
     print("timedOut.type DERIVE")
