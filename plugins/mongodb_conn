@@ -14,6 +14,7 @@ try:
     import json
 except ImportError:
     import simplejson as json
+import math
 
 def safe_name(unsafe_name):
     return re.sub(r"[^A-Za-z0-9_]+", "_", unsafe_name)
@@ -39,10 +40,13 @@ def print_config_b():
     print("graph_vlabel number of connections")
     print("graph_order current available")
 
-    for k in get_server_data():
-        if must_print_key(k):
-            print("%s.label %s connections" % (safe_name(k), k))
-            print("%s.draw AREASTACK" % (safe_name(k)))
+    available = get_server_data()["available"]
+    print("current.label current connections")
+    print("current.draw AREASTACK")
+    print("current.critical 0:%d" % (available - min(10, int(math.ceil(available/100))) - 1))
+    print("current.warning 0:%d" % (available - math.ceil(available/10) - 1))
+    print("available.label available connections")
+    print("available.draw AREASTACK")
 
 """
 End unique section.
