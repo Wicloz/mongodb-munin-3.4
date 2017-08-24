@@ -3,6 +3,7 @@ install:
 	touch /usr/lib/mongostatus/__init__.py
 	touch /usr/lib/mongostatus/init.py
 	install -m 755 ./mongostatus/mongodb_server_status.py /usr/lib/mongostatus/mongodb_server_status.py
+	install -m 755 ./mongostatus/mongodb_list_databases.py /usr/lib/mongostatus/mongodb_list_databases.py
 	install -m 755 ./plugins/* /usr/share/munin/plugins/
 
 enable:
