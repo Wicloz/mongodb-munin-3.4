@@ -52,10 +52,10 @@ def print_autoconf():
     if 'autoconftimeout' in environ:
         timeout = environ['autoconftimeout']
     try:
-        mongodb.getServerStatus(timeout)
+        mongodb.getListDatabases(timeout)
         print("yes")
     except:
-        print("no (can't get mongodb server status)")
+        print("no (can't get mongodb database list)")
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
