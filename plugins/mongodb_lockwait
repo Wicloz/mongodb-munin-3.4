@@ -34,7 +34,7 @@ def print_values():
     for k, v in mongodb.getServerStatus()["locks"].iteritems():
         if v.has_key("timeAcquiringMicros"):
             for kk, vv in v["timeAcquiringMicros"].iteritems():
-                time[kk] += vv * 1000
+                time[kk] += vv / 1000
 
     for k, v in amount.items():
         if v == 0:
