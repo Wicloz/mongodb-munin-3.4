@@ -60,8 +60,12 @@ def print_config_a():
     print("graph_category mongodb")
 
 def print_autoconf():
+    from os import environ
+    timeout = 3
+    if 'autoconftimeout' in environ:
+        timeout = environ['autoconftimeout']
     try:
-        mongodb.getServerStatus()
+        mongodb.getServerStatus(timeout)
         print("yes")
     except:
         print("no (can't get mongodb server status)")

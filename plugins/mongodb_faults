@@ -22,8 +22,8 @@ def safe_name(unsafe_name):
 Begin unique section.
 """
 
-def get_server_data():
-    return mongodb.getServerStatus()["extra_info"]["page_faults"]
+def get_server_data(timeout = 30):
+    return mongodb.getServerStatus(timeout)["extra_info"]["page_faults"]
 
 def print_values():
     print("page_faults.value %d" % (get_server_data()))
@@ -45,8 +45,12 @@ def print_config_a():
     print("graph_category mongodb")
 
 def print_autoconf():
+    from os import environ
+    timeout = 3
+    if 'autoconftimeout' in environ:
+        timeout = environ['autoconftimeout']
     try:
-        get_server_data()
+        get_server_data(timeout)
         print("yes")
     except:
         print("no (can't get mongodb page_faults information)")

@@ -7,7 +7,7 @@ try:
 except ImportError:
     import urllib as urlparse
 
-def getServerStatus():
+def getServerStatus(conn_timeout_secs = 30):
     url = ''
     if 'mongourl' in environ:
         url = environ['mongourl']
@@ -49,7 +49,7 @@ def getServerStatus():
         else:
             url = urlstart + host + ":" + str(port) + urlend
 
-    client = pymongo.MongoClient(url)
+    client = pymongo.MongoClient(url, serverSelectionTimeoutMS=(conn_timeout_secs * 1000))
     return client.admin.command('serverStatus', rangeDeleter=True, repl=True)
 
 if __name__ == '__main__':
