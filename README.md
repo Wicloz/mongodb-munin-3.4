@@ -27,8 +27,8 @@ All plugins are in the family `contrib` and have working `autoconf`. This means 
 If you don't have any specific method for setting up munin plugins, just `cd` into the downloaded repository and run `sudo make enable`.
 
 #### NOTES:
-- For all plugins, the `autoconf` is based on successfully getting data from mongodb. In order for the autoconf to succeed the plugins must be properly configured and mongodb must be running.
-- In addition to this, the timeout to connect to mongodb is set to 3 seconds for the autoconf. If this is not sufficient, set `env.autoconftimeout` to a higher value, in seconds.
+- For all plugins, the `autoconf` is based on successfully getting data from mongodb. In order for the `autoconf` to succeed the plugins must be properly configured and mongodb must be running.
+- In addition to this, the timeout to connect to mongodb is set to 3 seconds for the `autoconf`. If this is not sufficient, set `env.autoconftimeout` to a higher value, in seconds.
 
 ## Uninstallation:
 - `cd` into the downloaded repository.
