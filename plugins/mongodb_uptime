@@ -51,11 +51,7 @@ def print_config_a():
     print("graph_category mongodb")
 
 def print_autoconf():
-    try:
-        mongodb.getServerStatus()
-        print("yes")
-    except:
-        print("no (can't get mongodb server status)")
+    print("no (disabled by default)")
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
