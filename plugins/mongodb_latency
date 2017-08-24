@@ -38,7 +38,7 @@ def print_config_b():
     print("graph_vlabel average latency (sec / operation)")
 
     for k in get_server_data():
-        print("%s.label %s latency" % (safe_name(k), k))
+        print("%s.label %s latency" % (safe_name(k), k[:-1]))
 
 """
 End unique section.
