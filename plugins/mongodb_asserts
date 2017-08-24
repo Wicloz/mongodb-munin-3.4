@@ -7,8 +7,8 @@ Magic markers
 """
 
 import sys
-sys.path.insert(0, '/usr/lib/mongostatus')
-import mongodb_server_status as mongodb
+sys.path.insert(0, '/usr/lib/mongopython')
+import mongodb_commands as mongodb
 import re
 try:
     import json
