@@ -1,0 +1,71 @@
+#!/usr/bin/python
+
+"""
+Magic markers
+#%# family=contrib
+#%# capabilities=autoconf
+"""
+
+import sys
+sys.path.insert(0, '/usr/lib/mongostatus')
+import mongodb_server_status as mongodb
+import re
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
+def safe_name(unsafe_name):
+    return re.sub(r"[^A-Za-z0-9_]+", "_", unsafe_name)
+
+"""
+Begin unique section.
+"""
+
+def get_server_data():
+    return mongodb.getServerStatus()["metrics"]["cursor"]["open"]
+
+def print_values():
+    for k, v in get_server_data().iteritems():
+        print("%s.value %d" % (safe_name(k), v))
+    print("timedOut.value %d" % (mongodb.getServerStatus()["metrics"]["cursor"]["timedOut"]))
+
+def print_config_b():
+    print("graph_title MongoDB cursors")
+    print("graph_args --base 1000")
+    print("graph_vlabel number of cursors")
+
+    for k in get_server_data():
+        print("%s.label open %s cursors" % (safe_name(k), k))
+
+    print("timedOut.label timed out cursors / ${graph_period}")
+    print("timedOut.type DERIVE")
+    print("timedOut.min 0")
+
+"""
+End unique section.
+"""
+
+def print_config_a():
+    print("graph_category mongodb")
+
+def print_autoconf():
+    from os import environ
+    timeout = 3
+    if 'autoconftimeout' in environ:
+        timeout = environ['autoconftimeout']
+    try:
+        mongodb.getServerStatus(timeout)
+        print("yes")
+    except:
+        print("no (can't get mongodb server status)")
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "config":
+            print_config_a()
+            print_config_b()
+        elif sys.argv[1] == "autoconf":
+            print_autoconf()
+    else:
+        print_values()
