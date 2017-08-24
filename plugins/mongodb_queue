@@ -54,7 +54,7 @@ def print_autoconf():
     from os import environ
     timeout = 3
     if 'autoconftimeout' in environ:
-        timeout = environ['autoconftimeout']
+        timeout = int(environ['autoconftimeout'])
     try:
         mongodb.getServerStatus(timeout)
         print("yes")
