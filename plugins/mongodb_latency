@@ -30,7 +30,7 @@ def print_values():
         if v["ops"] == 0:
             print("%s.value 0" % (safe_name(k)))
         else:
-            print("%s.value %f" % (safe_name(k), (v["latency"] / 1000000) / v["ops"]))
+            print("%s.value %s" % (safe_name(k), float(v["latency"]) / 1000000 / v["ops"]))
 
 def print_config_b():
     print("graph_title MongoDB operation latencies")

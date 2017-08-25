@@ -34,13 +34,13 @@ def print_values():
     for k, v in mongodb.getServerStatus()["locks"].iteritems():
         if v.has_key("timeAcquiringMicros"):
             for kk, vv in v["timeAcquiringMicros"].iteritems():
-                time[kk] += vv / 1000000
+                time[kk] += float(vv) / 1000000
 
     for k, v in amount.items():
         if v == 0:
             print("%s.value 0" % (k))
         else:
-            print("%s.value %f" % (k, time[k] / v))
+            print("%s.value %s" % (k, float(time[k]) / v))
 
 def print_config_b():
     print("graph_title MongoDB wait time per lock")
