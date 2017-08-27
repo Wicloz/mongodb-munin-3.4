@@ -32,6 +32,11 @@ def print_values():
                 amount[kk] += vv
 
     for k, v in mongodb.getServerStatus()["locks"].iteritems():
+        if v.has_key("acquireCount"):
+            for kk, vv in v["acquireCount"].iteritems():
+                amount[kk] += vv
+
+    for k, v in mongodb.getServerStatus()["locks"].iteritems():
         if v.has_key("timeAcquiringMicros"):
             for kk, vv in v["timeAcquiringMicros"].iteritems():
                 time[kk] += float(vv) / 1000000
