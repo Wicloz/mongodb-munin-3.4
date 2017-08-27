@@ -63,10 +63,10 @@ def print_config_b():
     if mongodb.getServerStatus()["locks"].has_key("oplog"):
         types = ["other", "oplog"]
         for type in types:
-            print("%s_R.label Shared locks (%s)" % (type, type))
-            print("%s_W.label Exclusive locks (%s)" % (type, type))
-            print("%s_r.label Intent Shared locks (%s)" % (type, type))
-            print("%s_w.label Intent Exclusive locks (%s)" % (type, type))
+            print("%s_R.label Shared locks (%s)" % (type))
+            print("%s_W.label Exclusive locks (%s)" % (type))
+            print("%s_r.label Intent Shared locks (%s)" % (type))
+            print("%s_w.label Intent Exclusive locks (%s)" % (type))
 
     else:
         print("other_R.label Shared locks")
