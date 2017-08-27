@@ -23,33 +23,54 @@ Begin unique section.
 """
 
 def print_values():
-    values = {"R": 0, "W": 0, "r": 0, "w": 0}
+    acquireCount = {"R": 0, "W": 0, "r": 0, "w": 0}
+    acquireWaitCount = {"R": 0, "W": 0, "r": 0, "w": 0}
 
     for k, v in mongodb.getServerStatus()["locks"].iteritems():
         if v.has_key("acquireCount"):
             for kk, vv in v["acquireCount"].iteritems():
-                values[kk] += vv
+                acquireCount[kk] += vv
 
-    for k, v in values.items():
-        print("%s.value %d" % (k, v))
+    for k, v in mongodb.getServerStatus()["locks"].iteritems():
+        if v.has_key("acquireWaitCount"):
+            for kk, vv in v["acquireWaitCount"].iteritems():
+                acquireWaitCount[kk] += vv
+
+    for k, v in acquireCount.items():
+        print("acquireCount_%s.value %d" % (k, v))
+    for k, v in acquireWaitCount.items():
+        print("acquireWaitCount_%s.value %d" % (k, v))
 
 def print_config_b():
     print("graph_title MongoDB locks")
     print("graph_args --base 1000")
     print("graph_vlabel locks / ${graph_period}")
 
-    print("R.label Shared locks")
-    print("R.type DERIVE")
-    print("R.min 0")
-    print("W.label Exclusive locks")
-    print("W.type DERIVE")
-    print("W.min 0")
-    print("r.label Intent Shared locks")
-    print("r.type DERIVE")
-    print("r.min 0")
-    print("w.label Intent Exclusive locks")
-    print("w.type DERIVE")
-    print("w.min 0")
+    print("acquireCount_R.label Acquired Shared locks")
+    print("acquireCount_R.type DERIVE")
+    print("acquireCount_R.min 0")
+    print("acquireCount_W.label Acquired Exclusive locks")
+    print("acquireCount_W.type DERIVE")
+    print("acquireCount_W.min 0")
+    print("acquireCount_r.label Acquired Intent Shared locks")
+    print("acquireCount_r.type DERIVE")
+    print("acquireCount_r.min 0")
+    print("acquireCount_w.label Acquired Intent Exclusive locks")
+    print("acquireCount_w.type DERIVE")
+    print("acquireCount_w.min 0")
+
+    print("acquireWaitCount_R.label Waiting Shared locks")
+    print("acquireWaitCount_R.type DERIVE")
+    print("acquireWaitCount_R.min 0")
+    print("acquireWaitCount_W.label Waiting Exclusive locks")
+    print("acquireWaitCount_W.type DERIVE")
+    print("acquireWaitCount_W.min 0")
+    print("acquireWaitCount_r.label Waiting Intent Shared locks")
+    print("acquireWaitCount_r.type DERIVE")
+    print("acquireWaitCount_r.min 0")
+    print("acquireWaitCount_w.label Waiting Intent Exclusive locks")
+    print("acquireWaitCount_w.type DERIVE")
+    print("acquireWaitCount_w.min 0")
 
 """
 End unique section.
