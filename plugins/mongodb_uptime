@@ -29,7 +29,7 @@ def get_server_data():
     return mongodb.getServerStatus()
 
 def print_values():
-    for k, v in get_server_data().iteritems():
+    for k, v in get_server_data().items():
         if must_print_key(k):
             print("%s.value %d" % (safe_name(k), v))
 

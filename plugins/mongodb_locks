@@ -26,14 +26,14 @@ def print_values():
     acquireCount = {"R": 0, "W": 0, "r": 0, "w": 0}
     acquireWaitCount = {"R": 0, "W": 0, "r": 0, "w": 0}
 
-    for k, v in mongodb.getServerStatus()["locks"].iteritems():
+    for k, v in mongodb.getServerStatus()["locks"].items():
         if v.has_key("acquireCount"):
-            for kk, vv in v["acquireCount"].iteritems():
+            for kk, vv in v["acquireCount"].items():
                 acquireCount[kk] += vv
 
-    for k, v in mongodb.getServerStatus()["locks"].iteritems():
+    for k, v in mongodb.getServerStatus()["locks"].items():
         if v.has_key("acquireWaitCount"):
-            for kk, vv in v["acquireWaitCount"].iteritems():
+            for kk, vv in v["acquireWaitCount"].items():
                 acquireWaitCount[kk] += vv
 
     for k, v in acquireCount.items():

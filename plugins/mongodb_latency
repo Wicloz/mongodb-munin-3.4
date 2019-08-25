@@ -26,7 +26,7 @@ def get_server_data(timeout = 30):
     return mongodb.getServerStatus(timeout)["opLatencies"]
 
 def print_values():
-    for k, v in get_server_data().iteritems():
+    for k, v in get_server_data().items():
         if v["ops"] == 0:
             print("%s.value 0" % (safe_name(k)))
         else:
